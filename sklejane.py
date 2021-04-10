@@ -3,6 +3,7 @@ from sympy import Symbol, simplify, lambdify, Rational, Poly, diff
 
 import matplotlib.pyplot as plt
 
+
 def get_cmap(n, name='hsv'):
     '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct
     RGB color; the keyword argument name must be a standard mpl colormap name.'''
@@ -13,7 +14,8 @@ plt.grid(True, which='both')
 plt.axhline(y=0, color='k')
 plt.axvline(x=0, color='k')
 
-def sklej(X, Y):
+
+def get_spline(X, Y):
     n = len(X)
     h = [0 for _ in range(n)]
     b = [0 for _ in range(n)]
@@ -41,13 +43,12 @@ def sklej(X, Y):
     S = []
     for i in range(n - 1):
         B = -1 * h[i] / 6 * z[i + 1] - h[i] / 3 * z[i] + 1 / h[i] * (Y[i + 1] - Y[i])
-        temp = Y[i] + (x - X[i])*(B + (x - X[i])*(z[i]/2 + 1/6*h[i]*(x-X[i])*(z[i+1] - z[i])))
+        temp = Y[i] + (x - X[i]) * (B + (x - X[i]) * (z[i] / 2 + 1 / 6 * h[i] * (x - X[i]) * (z[i + 1] - z[i])))
         S.append(simplify(temp))
-
 
     lambdas = []
     cmap = get_cmap(len(S))
-    for i in range(n-1):
+    for i in range(n - 1):
         print(S[i])
         poly = Poly(S[i], x)
         print(poly.coeffs())
@@ -56,24 +57,22 @@ def sklej(X, Y):
 
     return lambdas
 
-def calculate_skl(X, L, x):
-    n= len(L)
+
+def subs_spline(X, L, x):
+    n = len(L)
     cmap = get_cmap(n)
 
     a = int(np.floor(x))
     val = L[a](x)
-    print("f({}) = {}".format(x, val) )
-    for i in range(n-1):
-        space = np.arange(X[i],X[i+1], 0.01)
+    print("f({}) = {}".format(x, val))
+    for i in range(n - 1):
+        space = np.arange(X[i], X[i + 1], 0.01)
         plt.plot(space, L[i](space), c=cmap(i))
 
     plt.show()
 
 
-
-
-
 X = [0, 1, 2, 3, 4]
 Y = [0, 0, 0, 1, 0]
-Ls = sklej(X, Y)
-calculate_skl(X, Ls, 2.25)
+Ls = get_spline(X, Y)
+subs_spline(X, Ls, 2.25)
