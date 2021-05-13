@@ -17,7 +17,10 @@ def r(x):
 
 if __name__ == "__main__":
     X = [x for x in range(-5, 6, 1)]
-    Y = [1 / (1 + np.power(x, 2)) for x in X]
+    Y = [r(x) for x in X]
+    print(X)
+    print(Y)
+
 
     k = np.arange(-5, 5, 0.1)
     plt.grid(True, which='both')
@@ -25,17 +28,17 @@ if __name__ == "__main__":
     plt.axvline(x=0, color='k')
 
 
-    Xch = get_chybyshev_nodes(-5, 5, 5)
-    Ych = [1 / (1 + np.power(x, 2)) for x in Xch]
-    plt.plot(k, newton_interpolation1_raw(Xch, Ych)(k), 'r')
+    # Xch = get_chybyshev_nodes(-5, 5, 5)
+    # Ych = [1 / (1 + np.power(x, 2)) for x in Xch]
+    # plt.plot(k, newton_interpolation1_raw(Xch, Ych)(k), 'r')
 
     Xch = get_chybyshev_nodes(-5, 5, 9)
     Ych = [1 / (1 + np.power(x, 2)) for x in Xch]
     plt.plot(k, newton_interpolation1_raw(Xch, Ych)(k), 'g')
 
-    Xch = get_chybyshev_nodes(-5, 5, 15)
-    Ych = [1 / (1 + np.power(x, 2)) for x in Xch]
-    plt.plot(k, newton_interpolation1_raw(Xch, Ych)(k), 'b')
+    # Xch = get_chybyshev_nodes(-5, 5, 15)
+    # Ych = [1 / (1 + np.power(x, 2)) for x in Xch]
+    # plt.plot(k, newton_interpolation1_raw(Xch, Ych)(k), 'b')
 
     plt.plot(k, newton_interpolation1_raw(X, Y)(k), 'y')
 

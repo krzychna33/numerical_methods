@@ -35,13 +35,14 @@ def newton_interpolation1_raw(X, Y):
     print(poly.coeffs())
     return lambdify(x, accumulator, "numpy")
 
-def newton_interpolation1(X, Y, v):
+def newton_interpolation1(X, Y):
     print('--- NEWTON INTERPOLATION ---')
 
     x = Symbol('x')
     accumulator = 0
     for i in range(len(X)):
         pdv = pd(X[:i + 1], Y[:i + 1])
+        print(pdv)
         if i == 0:
             accumulator += pdv
         else:
@@ -54,10 +55,10 @@ def newton_interpolation1(X, Y, v):
     poly = Poly(accumulator, x)
     print(poly.coeffs())
 
-    return lambdify(x, accumulator, "numpy")(v)
+    return lambdify(x, accumulator, "numpy")
 
 
-def newton_interpolation2(X, Y, v):
+def newton_interpolation2(X, Y):
     x = Symbol('x')
     accumulator = Poly(0, x)
     for i in range(len(X)):
@@ -72,7 +73,7 @@ def newton_interpolation2(X, Y, v):
     print(accumulator)
     print(accumulator.coeffs())
 
-    return accumulator(v)
+    return accumulator
 
 
 
@@ -89,10 +90,10 @@ if __name__ == "__main__":
     # X2 = [-1, 0, 1, 2, 3]
     # Y2 = [-7, -1, -1, -1, 5]
 
-    X2 = [1,2,3,4,5]
-    Y2 = [1,5, 14, 30, 55]
+    X2 = [1.5, 2.0, 2.25, 2.75, 3.0]
+    Y2 = [0.99, 0.91, 0.78, 0.38, 0.14]
 
-    print(newton_interpolation1(X2, Y2, 9))
+    print("VAL" + str(newton_interpolation1(X2, Y2)(1.75)))
 
     k = np.arange(-15, 15, 0.0001)
     plt.grid(True, which='both')
